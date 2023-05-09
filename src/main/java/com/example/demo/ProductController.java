@@ -15,12 +15,12 @@ public class ProductController {
     private ProductsService productService;
 
     @GetMapping("/products")
-    public  Iterable<Product> listProducts() {
+    public Iterable<Product> listProducts() {
         try{
             return productService.getProducts();
         }
         catch(Exception e) {
-            System.out.println("Error! addProduct failed!");
+            System.out.println("Error! getting list of products failed! Exception!");
             return null;
         }
     }
@@ -31,7 +31,7 @@ public class ProductController {
             return productService.addProduct(product);
         }
         catch(Exception e) {
-            System.out.println("Error! addProduct failed!");
+            System.out.println("Error! addProduct failed! Exception!");
             return "failed";
         }
     }
@@ -43,7 +43,7 @@ public class ProductController {
             return productService.deleteProduct(productId);
         }
         catch (Exception e){
-            System.out.println("Error! Delete product failed");
+            System.out.println("Error! Delete product failed. Exception!");
             return "failed";
         }
 

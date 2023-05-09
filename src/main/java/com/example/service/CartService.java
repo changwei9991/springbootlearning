@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.exceptions.CartResult;
 import com.example.model.Cart;
 import com.example.model.Product;
 import com.example.repository.CartRepository;
@@ -17,7 +18,7 @@ public class CartService {
     @Autowired
     ProductsService productsService;
 
-    public Long addToCart(Long productId, Long userId){
+    public CartResult addToCart(Long productId, Long userId){
         Product product = productsService.getProductById(productId);
         if(product == null){
             return null;
@@ -28,22 +29,23 @@ public class CartService {
         newCart.setUserId(userId);
 
         Cart entity = cartRepository.save(newCart);
-        return entity.getCartId();
+        return new CartResult("Success!", entity);
     }
 
-    public String removeFromCart(Long userId){
+    public CartResult removeFromCart(Long userId){
         int result = cartRepository.deleteByUserId(userId);
         if(result==1){
-            return "success!";
+            return new CartResult("Successfully deleted!");
         }
         else{
-            return "Failed! Record does not exist in database.";
+            return new CartResult("Deletion failed! No such cart with specified userId given.");
         }
 
     }
 
-    public Cart getCart(Long userId){
-        return cartRepository.findByUserId(userId);
+    public CartResult getCart(Long userId){
+        Cart result = cartRepository.findByUserId(userId);
+        return new CartResult("Success", result);
     }
 
     public Iterable<Cart> getAllCart(){

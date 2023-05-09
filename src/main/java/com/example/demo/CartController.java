@@ -1,6 +1,7 @@
 package com.example.demo;
 
 
+import com.example.exceptions.CartResult;
 import com.example.model.Cart;
 import com.example.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,40 +14,41 @@ public class CartController {
     CartService cartService;
 
     @PostMapping("/addToCart/{productId}")
-    public Long addToCart(@PathVariable("productId") String id, @RequestHeader("userId") Long userId){
+    public CartResult addToCart(@PathVariable("productId") String id, @RequestHeader("userId") Long userId){
       try{
           Long productId = Long.parseLong(id);
           return cartService.addToCart(productId,userId);
 
       }
       catch(Exception e){
-          System.out.println("Failed!!");
+          System.out.println("Failed to add specified product to cart!! Exception caught.");
           return null;
       }
     }
 
     @DeleteMapping("/removeFromCart")
-    public String removeFromCart(@RequestHeader("userId") Long userId){
+    public CartResult removeFromCart(@RequestHeader("userId") Long userId){
         try{
              return cartService.removeFromCart(userId);
         }
         catch(Exception e){
-            System.out.println("Error in deletion!");
+            System.out.println("Error in deletion! Exception caught.");
             return null;
         }
     }
 
     @GetMapping("/getCart")
-    public Cart getCart(@RequestHeader("userId") Long userId){
+    public CartResult getCart(@RequestHeader("userId") Long userId){
         try{
             return cartService.getCart(userId);
         }
         catch(Exception e){
-            System.out.println("Error in deletion!");
+            System.out.println("Unable to get cart! Exception! ");
             return null;
         }
     }
 
+    // just for testing
     @GetMapping("/getAllCart")
     public Iterable<Cart>getAllCart(){
         try{
