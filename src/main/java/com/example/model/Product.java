@@ -1,12 +1,10 @@
 package com.example.model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 
-@Entity
+@Entity(name = "product")
 @Table
 public class Product {
     @Id
@@ -19,7 +17,8 @@ public class Product {
 
     private Float price;
 
-    private Integer quantity;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    private List<Cart> cartList;
 
     public Long getId() {
         return id;
@@ -39,14 +38,6 @@ public class Product {
 
     public void setPrice(Float price) {
         this.price = price;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
     }
 
     public String getProductName() {

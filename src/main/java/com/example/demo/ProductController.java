@@ -1,12 +1,12 @@
 package com.example.demo;
 
+import com.example.exceptions.GenericErrorMessage;
 import com.example.model.Product;
-import com.example.model.ProductsInCart;
+import com.example.model.Cart;
 import com.example.service.ProductsService;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class ProductController {
@@ -25,21 +25,28 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/addToCart")
-    public String addToCart(@RequestBody ProductsInCart request) {
-        return "dummy";
-    }
-
-    @PostMapping("addProduct")
+    @PostMapping("/addProduct")
     public String addProduct(@RequestBody Product product){
         try{
-            productService.addProduct(product);
-            return "success!";
+            return productService.addProduct(product);
         }
-        catch(Exception e){
+        catch(Exception e) {
             System.out.println("Error! addProduct failed!");
+            return "failed";
         }
-        return "failed";
+    }
+
+    @DeleteMapping("/deleteProduct/{id}")
+    public String deleteProduct(@PathVariable String id){
+        Long productId = Long.parseLong(id);
+        try{
+            return productService.deleteProduct(productId);
+        }
+        catch (Exception e){
+            System.out.println("Error! Delete product failed");
+            return "failed";
+        }
+
     }
 
 
