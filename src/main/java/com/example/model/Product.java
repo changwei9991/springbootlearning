@@ -17,7 +17,7 @@ public class Product {
 
     private Float price;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
     private List<Cart> cartList;
 
     public Long getId() {

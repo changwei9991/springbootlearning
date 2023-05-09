@@ -32,8 +32,14 @@ public class CartService {
     }
 
     public String removeFromCart(Long userId){
-        cartRepository.deleteByUserId(userId);
-        return "success";
+        int result = cartRepository.deleteByUserId(userId);
+        if(result==1){
+            return "success!";
+        }
+        else{
+            return "Failed! Record does not exist in database.";
+        }
+
     }
 
     public Cart getCart(Long userId){

@@ -28,7 +28,7 @@ public class CartController {
     @DeleteMapping("/removeFromCart")
     public String removeFromCart(@RequestHeader("userId") Long userId){
         try{
-            return cartService.removeFromCart(userId);
+             return cartService.removeFromCart(userId);
         }
         catch(Exception e){
             System.out.println("Error in deletion!");
