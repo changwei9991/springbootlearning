@@ -8,16 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4401", allowedHeaders = {}, exposedHeaders = {})
 public class CartController {
 
     @Autowired
     CartService cartService;
 
     @PostMapping("/addToCart/{productId}")
-    public CartResult addToCart(@PathVariable("productId") String id, @RequestHeader("userId") Long userId){
+    public CartResult addToCart(@PathVariable("productId") String id, @RequestHeader("userId") String userId){
       try{
           Long productId = Long.parseLong(id);
-          return cartService.addToCart(productId,userId);
+          Long parsedUserId = Long.parseLong(userId);
+          return cartService.addToCart(productId,parsedUserId);
 
       }
       catch(Exception e){
@@ -27,9 +29,10 @@ public class CartController {
     }
 
     @DeleteMapping("/removeFromCart")
-    public CartResult removeFromCart(@RequestHeader("userId") Long userId){
+    public CartResult removeFromCart(@RequestHeader("userId") String userId){
         try{
-             return cartService.removeFromCart(userId);
+            Long parsedUserId = Long.parseLong(userId);
+            return cartService.removeFromCart(parsedUserId);
         }
         catch(Exception e){
             System.out.println("Error in deletion! Exception caught.");
@@ -38,9 +41,10 @@ public class CartController {
     }
 
     @GetMapping("/getCart")
-    public CartResult getCart(@RequestHeader("userId") Long userId){
+    public CartResult getCart(@RequestHeader("userId") String userId){
         try{
-            return cartService.getCart(userId);
+            Long parsedUserId = Long.parseLong(userId);
+            return cartService.getCart(parsedUserId);
         }
         catch(Exception e){
             System.out.println("Unable to get cart! Exception! ");
